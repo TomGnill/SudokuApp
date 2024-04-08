@@ -2,8 +2,8 @@ import { generateSudoku, findEmptyCell } from "./sudokuGenerator.js";
 import { GRID_SIZE, BOX_SIZE } from "./utilities.js";
 
 export class Sudoku {
-    constructor(){
-        this.grid = generateSudoku();
+    constructor(difficulty){
+        this.grid = generateSudoku(difficulty);
     }
 
     getDuplicatePositions(row, column, value){

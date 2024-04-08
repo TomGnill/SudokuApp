@@ -1,18 +1,29 @@
 import { Sudoku } from "./sudoku.js";
-import { BOX_SIZE, GRID_SIZE, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
+import { BOX_SIZE, GRID_SIZE, DIFFICULTIES, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
 
-const sudoku = new Sudoku();
 let cells;
 let selectedCellIndex = null;
 let selectedCell = null;
+let selectedDifficulty = 35;
+let sudoku = new Sudoku(selectedDifficulty);
 
 init();
 
 function init() {
+    initDifficulties();
     initCells();
     initNumbers();
     initRemover();
     initKeyEvent();
+}
+
+function reload() {
+    sudoku = new Sudoku(selectedDifficulty);
+    cells.forEach(cell => {
+        cell.innerHTML = null;
+        cell.classList.remove('filled', 'zoom', 'shake', 'selected')
+    });
+    initCells();
 }
 
 function initCells() {
@@ -129,6 +140,22 @@ function highlightDublicates(duplicatesPositions) {
         const index = convertPositionToIndex(duplicate.row, duplicate.column);
         setTimeout(() => cells[index].classList.add('error', 'shake'), 0);
     })
+}
+
+function initDifficulties() {
+    const difficulties = document.querySelectorAll('.difficulty');
+    difficulties.forEach(difficuly => {
+        difficuly.addEventListener('click', () => onDifficultyClick(difficuly));
+    });
+}
+
+function onDifficultyClick(difficuly) {
+    selectedDifficulty = DIFFICULTIES.get(difficuly.innerHTML); // DIFFICULTIES[difficuly.innerHTML];
+    document.querySelectorAll('.difficulty').forEach(difficuly => {
+        difficuly.classList.remove('selected');
+    });
+    difficuly.classList.add('selected');
+    reload();
 }
 
 function initRemover() {

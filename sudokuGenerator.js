@@ -1,9 +1,9 @@
 import { BOX_SIZE, GRID_SIZE } from "./utilities.js";
 
-export function generateSudoku() {
+export function generateSudoku(difficulty) {
     const sudoku = createEmptyGrid();
     resolveSudoku(sudoku);
-    return removeCells(sudoku)
+    return removeCells(sudoku, difficulty)
 }
 
 function createEmptyGrid() {
@@ -80,12 +80,12 @@ function validateBox(grid, row, column, value) {
     return true;
 }
 
-function removeCells(grid) {
-    const DIFFICULTY = 1;
+function removeCells(grid, difficulty) {
+    // const DIFFICULTY = 30;
     const resultGrid = [...grid].map(row => [...row]);
 
     let i = 0;
-    while (DIFFICULTY > i) {
+    while (difficulty > i) {
         const row = Math.floor(Math.random() * GRID_SIZE);
         const column = Math.floor(Math.random() * GRID_SIZE);
         if (resultGrid[row][column] !== null) {
