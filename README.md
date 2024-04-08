@@ -1,0 +1,2 @@
+# SudokuApp
+Sudoku for LingmotGamesBot
