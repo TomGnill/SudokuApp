@@ -2,6 +2,8 @@ import { Sudoku } from "./sudoku.js";
 import { BOX_SIZE, GRID_SIZE, DIFFICULTIES, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
 
 let cells;
+let mistakes = 0;
+let elapsedTime = 0;
 let noteMode = false;
 let selectedCellIndex = null;
 let selectedCell = null;
@@ -16,9 +18,11 @@ function init() {
     initNumbers();
     initRemover();
     initKeyEvent();
+    stopwatch();
 }
 
 function reload() {
+    mistakes = 0;
     sudoku = new Sudoku(selectedDifficulty);
     cells.forEach(cell => {
         cell.innerHTML = null;
@@ -29,6 +33,7 @@ function reload() {
 
 function initCells() {
     cells = document.querySelectorAll('.cell');
+    elapsedTime = 0;
     fillCells();
     initCellsEvent();
 }
@@ -137,6 +142,8 @@ function setValueInSelectedCell(value) {
 }
 
 function highlightDublicates(duplicatesPositions) {
+    mistakes++;
+    document.querySelector('.mistakes_cnt').innerHTML = mistakes;
     duplicatesPositions.forEach(duplicate => {
         const index = convertPositionToIndex(duplicate.row, duplicate.column);
         setTimeout(() => cells[index].classList.add('error', 'shake'), 0);
@@ -184,6 +191,12 @@ function initKeyEvent() {
             onNumberClick(parseInt(event.key));
         }
     });
+}
+
+function stopwatch(){
+    elapsedTime ++;
+    document.querySelector('.stopwatch_seconds').innerHTML = elapsedTime;
+    setTimeout(stopwatch, 1000);
 }
 
 function winAnimation() {

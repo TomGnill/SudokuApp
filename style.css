@@ -124,6 +124,7 @@ body {
 
 .upper_panel{
     display: grid;
+    /* flex-flow: row; */
     grid-template-columns: repeat(4, auto);
     gap: var(--gap);
     margin-top: 2vmin;
@@ -135,23 +136,36 @@ body {
 .difficulty_change,
 .stopwatch{
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content:center;
     align-items:center;
     border-radius: var(--border-radius);
     background-color: var(--bg-cell);
     color: var(--text-color);
     /* cursor: pointer; */
-    height: 5vmin;
+    height: 6vmin;
+}
+
+.mistakes,
+.stopwatch{
+    justify-content: stretch;
 }
 
 .mistakes_emj,
 .stopwatch_emj{
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: 20%;
     border-right: 1px solid #7c7c7c;
 }
+
+.mistakes_cnt,
 .stopwatch_seconds{
+    display: flex;
     align-items: center;
-    width: 4vmin;
+    justify-content: center;
+    width: 80%;
 }
 .number,
 .remove {
