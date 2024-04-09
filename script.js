@@ -1,4 +1,5 @@
 import { Sudoku } from "./sudoku.js";
+import { Stopwatch } from "./stopwatch.js";
 import { BOX_SIZE, GRID_SIZE, DIFFICULTIES, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
 
 let cells;
@@ -9,6 +10,7 @@ let selectedCellIndex = null;
 let selectedCell = null;
 let selectedDifficulty = 35;
 let sudoku = new Sudoku(selectedDifficulty);
+let stopwatch = new Stopwatch();
 
 init();
 
@@ -18,12 +20,13 @@ function init() {
     initNumbers();
     initRemover();
     initKeyEvent();
-    stopwatch();
+    timer();
 }
 
 function reload() {
     mistakes = 0;
     sudoku = new Sudoku(selectedDifficulty);
+    stopwatch = new Stopwatch();
     cells.forEach(cell => {
         cell.innerHTML = null;
         cell.classList.remove('filled', 'zoom', 'shake', 'selected')
@@ -193,10 +196,10 @@ function initKeyEvent() {
     });
 }
 
-function stopwatch(){
+function timer(){
     elapsedTime ++;
-    document.querySelector('.stopwatch_seconds').innerHTML = elapsedTime;
-    setTimeout(stopwatch, 1000);
+    document.querySelector('.stopwatch_seconds').innerHTML = stopwatch.getTime();
+    setTimeout(timer, 1000);
 }
 
 function winAnimation() {
