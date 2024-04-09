@@ -2,6 +2,7 @@ import { Sudoku } from "./sudoku.js";
 import { BOX_SIZE, GRID_SIZE, DIFFICULTIES, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
 
 let cells;
+let noteMode = false;
 let selectedCellIndex = null;
 let selectedCell = null;
 let selectedDifficulty = 35;

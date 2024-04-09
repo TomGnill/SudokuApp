@@ -89,7 +89,9 @@ body {
 .cell.selected {
     background-color: var(--selected);
 }
-
+.cell.note{
+    font-style: italic;
+}
 .cell.error {
     background-color: var(--error);
     color: var(--alt-text-color);
@@ -105,6 +107,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family:'apple';
     border-radius: var(--border-radius);
     background-color: var(--bg-cell);
     color: var(--text-color);
@@ -119,7 +122,37 @@ body {
 }
 
 
+.upper_panel{
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: var(--gap);
+    margin-top: 2vmin;
+    margin-bottom: 3vmin;
+}
 
+.pencil,
+.mistakes,
+.difficulty_change,
+.stopwatch{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-cell);
+    color: var(--text-color);
+    /* cursor: pointer; */
+    height: 5vmin;
+}
+
+.mistakes_emj,
+.stopwatch_emj{
+    align-items: center;
+    border-right: 1px solid #7c7c7c;
+}
+.stopwatch_seconds{
+    align-items: center;
+    width: 4vmin;
+}
 .number,
 .remove {
     display: flex;
