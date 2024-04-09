@@ -15,10 +15,11 @@ export class Stopwatch{
                 this.hours++;
             }
         }
-        setTimeout(this.increase, 1000);
     }
 
     getTime(){
-        return this.hours + ":" + this.minutes + ":" + this.seconds;
+        return this.hours > 0 ? this.hours + ":" : null + 
+               this.minutes > 0 ? this.minutes + ":" : null + 
+               this.seconds;
     }
 }

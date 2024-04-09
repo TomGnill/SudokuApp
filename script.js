@@ -197,8 +197,10 @@ function initKeyEvent() {
 }
 
 function timer(){
-    elapsedTime ++;
-    document.querySelector('.stopwatch_seconds').innerHTML = stopwatch.getTime();
+    // elapsedTime ++;
+    stopwatch.increase();
+    let test = stopwatch.getTime();
+    document.querySelector('.stopwatch_seconds').innerHTML = test;
     setTimeout(timer, 1000);
 }
 
