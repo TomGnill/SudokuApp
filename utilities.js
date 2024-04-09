@@ -1,6 +1,6 @@
 export const GRID_SIZE = 9;
 export const BOX_SIZE = 3;
-export const DIFFICULTIES = new Map().set('🥰',20).set('😁',35).set('😅',45).set('🤯',55).set('👹',65);
+export const DIFFICULTIES = new Map().set('🥰',43).set('😁',51).set('🤔',56).set('🤯',58).set('👹',64);
 
 export function convertIndexToPosition(index) {
     return {
