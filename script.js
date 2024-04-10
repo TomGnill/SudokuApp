@@ -129,6 +129,7 @@ function onNumberClick(number) {
         setNoteInSelectedCell(number);
     }
     else{
+        selectedCell.classList.remove('note');
         setValueInSelectedCell(number);
     }
 
@@ -142,6 +143,8 @@ function setValueInSelectedCell(value) {
     const duplicatesPositions = sudoku.getDuplicatePositions(row, column, value);
 
     if (duplicatesPositions.length) {
+        mistakes++;
+        document.querySelector('.mistakes_cnt').innerHTML = mistakes;
         highlightDublicates(duplicatesPositions)
         return;
     }
@@ -152,12 +155,18 @@ function setValueInSelectedCell(value) {
 }
 
 function setNoteInSelectedCell(value){
+    const { row, column } = convertIndexToPosition(selectedCellIndex);
+    const duplicatesPositions = sudoku.getDuplicatePositions(row, column, value);
+
+    if (duplicatesPositions.length) {
+        highlightDublicates(duplicatesPositions)
+        return;
+    }
     selectedCell.innerHTML += value + '\n';
+    selectedCell.classList.add('note');
 }
 
 function highlightDublicates(duplicatesPositions) {
-    mistakes++;
-    document.querySelector('.mistakes_cnt').innerHTML = mistakes;
     duplicatesPositions.forEach(duplicate => {
         const index = convertPositionToIndex(duplicate.row, duplicate.column);
         setTimeout(() => cells[index].classList.add('error', 'shake'), 0);
