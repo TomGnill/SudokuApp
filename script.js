@@ -162,7 +162,11 @@ function setNoteInSelectedCell(value){
         highlightDublicates(duplicatesPositions)
         return;
     }
-    selectedCell.innerHTML += value + '\n';
+
+    let selectedCellValues = selectedCell.innerHTML.split('\n');
+    if(!selectedCellValues.contains(value)){
+        selectedCell.innerHTML += value + '\n';
+    }
     selectedCell.classList.add('note');
 }
 
