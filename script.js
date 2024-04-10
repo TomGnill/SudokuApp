@@ -16,6 +16,7 @@ init();
 
 function init() {
     initDifficulties();
+    initNode();
     initCells();
     initNumbers();
     initRemover();
@@ -25,6 +26,7 @@ function init() {
 
 function reload() {
     mistakes = 0;
+    document.querySelector('.mistakes_cnt').innerHTML = 0;
     sudoku = new Sudoku(selectedDifficulty);
     stopwatch = new Stopwatch();
     cells.forEach(cell => {
@@ -123,7 +125,12 @@ function onNumberClick(number) {
     if (selectedCell.classList.contains('filled')) return;
     cells.forEach(cell => cell.classList.remove('error', 'zoom', 'shake', 'selected'));
     selectedCell.classList.add('selected');
-    setValueInSelectedCell(number);
+    if(noteMode){
+        setNoteInSelectedCell(number);
+    }
+    else{
+        setValueInSelectedCell(number);
+    }
 
     if (!sudoku.hasEmptyCells()) {
         setTimeout(() => winAnimation(), 500)
@@ -142,6 +149,10 @@ function setValueInSelectedCell(value) {
     sudoku.grid[row][column] = value;
     selectedCell.innerHTML = value;
     setTimeout(() => selectedCell.classList.add('zoom'), 0);
+}
+
+function setNoteInSelectedCell(value){
+    selectedCell.innerHTML += value + '\n';
 }
 
 function highlightDublicates(duplicatesPositions) {
@@ -166,16 +177,16 @@ function initDifficulties() {
     });
 }
 
-function onDifficultyChangeClick(){
+function onDifficultyChangeClick() {
     const difficulties = document.querySelector('.difficulities');
     const difficultyChange = document.querySelector('.difficulty_change');
 
 
-    if(difficulties.style.display === 'none'){
+    if (difficulties.style.display === 'none') {
         difficulties.style.display = 'grid';
         difficultyChange.classList.add('selected');
     }
-    else if(difficulties.style.display === 'grid'){
+    else if (difficulties.style.display === 'grid') {
         difficulties.style.display = 'none';
         difficultyChange.classList.remove('selected');
     }
@@ -222,7 +233,7 @@ function initKeyEvent() {
     });
 }
 
-function timer(){
+function timer() {
     // elapsedTime ++;
     stopwatch.increase();
     let test = stopwatch.getTime();
@@ -230,6 +241,20 @@ function timer(){
     setTimeout(timer, 1000);
 }
 
+function initNode() {
+    const noteModeButton = document.querySelector('.pencil');
+    noteModeButton.addEventListener('click', () => onPencilClick(noteModeButton));
+}
+
+function onPencilClick(noteModeButton) {
+    if(noteMode){
+        noteMode = false;
+        noteModeButton.classList.remove('selected');
+    }else{
+        noteMode = true;
+        noteModeButton.classList.add('selected');
+    }
+}
 function winAnimation() {
     cells.forEach(cell => cell.classList.remove('error', 'zoom', 'shake', 'selected', 'highlighted'));
     cells.forEach((cell, i) => {

@@ -86,6 +86,7 @@ body {
 }
 
 .difficulty_change.selected,
+.pencil.selected,
 .difficulty.selected,
 .cell.selected {
     background-color: var(--selected);
