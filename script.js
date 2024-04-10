@@ -8,7 +8,7 @@ let elapsedTime = 0;
 let noteMode = false;
 let selectedCellIndex = null;
 let selectedCell = null;
-let selectedDifficulty = 35;
+let selectedDifficulty = 51;
 let sudoku = new Sudoku(selectedDifficulty);
 let stopwatch = new Stopwatch();
 
@@ -155,16 +155,42 @@ function highlightDublicates(duplicatesPositions) {
 
 function initDifficulties() {
     const difficulties = document.querySelectorAll('.difficulty');
+
+    const difficultiesPanel = document.querySelector('.difficulities');
+    difficultiesPanel.style.display = 'none';
+    const difficultyChange = document.querySelector('.difficulty_change');
+    difficultyChange.addEventListener('click', () => onDifficultyChangeClick());
+
     difficulties.forEach(difficuly => {
         difficuly.addEventListener('click', () => onDifficultyClick(difficuly));
     });
 }
 
+function onDifficultyChangeClick(){
+    const difficulties = document.querySelector('.difficulities');
+    const difficultyChange = document.querySelector('.difficulty_change');
+
+
+    if(difficulties.style.display === 'none'){
+        difficulties.style.display = 'grid';
+        difficultyChange.classList.add('selected');
+    }
+    else if(difficulties.style.display === 'grid'){
+        difficulties.style.display = 'none';
+        difficultyChange.classList.remove('selected');
+    }
+}
+
 function onDifficultyClick(difficuly) {
+    const difficultyChange = document.querySelector('.difficulty_change');
+
     selectedDifficulty = DIFFICULTIES.get(difficuly.innerHTML); // DIFFICULTIES[difficuly.innerHTML];
     document.querySelectorAll('.difficulty').forEach(difficuly => {
         difficuly.classList.remove('selected');
     });
+    difficultyChange.innerHTML = difficuly.innerHTML;
+    onDifficultyChangeClick();
+
     difficuly.classList.add('selected');
     reload();
 }

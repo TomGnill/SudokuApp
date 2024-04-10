@@ -85,6 +85,7 @@ body {
     background-color: var(--highlighted);
 }
 
+.difficulty_change.selected,
 .difficulty.selected,
 .cell.selected {
     background-color: var(--selected);
@@ -96,8 +97,9 @@ body {
     background-color: var(--error);
     color: var(--alt-text-color);
 }
+
 .difficulities{
-    display: grid;
+    display:none;
     grid-template-columns: repeat(5, auto);
     gap: var(--gap);
     margin-top: 2vmin;
@@ -144,6 +146,11 @@ body {
     color: var(--text-color);
     /* cursor: pointer; */
     height: 6vmin;
+}
+
+.difficulty_change,
+.pencil{
+    cursor: pointer;
 }
 
 .mistakes,

@@ -18,8 +18,8 @@ export class Stopwatch{
     }
 
     getTime(){
-        return this.hours > 0 ? this.hours + ":" : null + 
-               this.minutes > 0 ? this.minutes + ":" : null + 
-               this.seconds;
+        return (this.hours > 0 ? this.hours + ":" : "") + 
+               (this.minutes > 0 ? this.minutes + ":" : "") + 
+               (this.seconds);
     }
 }
