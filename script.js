@@ -1,33 +1,44 @@
 import { Sudoku } from "./sudoku.js";
+import { Stopwatch } from "./stopwatch.js";
 import { BOX_SIZE, GRID_SIZE, DIFFICULTIES, convertIndexToPosition, convertPositionToIndex } from "./utilities.js";
 
 let cells;
+let mistakes = 0;
+let elapsedTime = 0;
+let noteMode = false;
 let selectedCellIndex = null;
 let selectedCell = null;
-let selectedDifficulty = 35;
+let selectedDifficulty = 51;
 let sudoku = new Sudoku(selectedDifficulty);
+let stopwatch = new Stopwatch();
 
 init();
 
 function init() {
     initDifficulties();
+    initNode();
     initCells();
     initNumbers();
     initRemover();
     initKeyEvent();
+    timer();
 }
 
 function reload() {
+    mistakes = 0;
+    document.querySelector('.mistakes_cnt').innerHTML = 0;
     sudoku = new Sudoku(selectedDifficulty);
+    stopwatch = new Stopwatch();
     cells.forEach(cell => {
         cell.innerHTML = null;
-        cell.classList.remove('filled', 'zoom', 'shake', 'selected')
+        cell.classList.remove('filled', 'zoom', 'shake', 'selected', 'note')
     });
     initCells();
 }
 
 function initCells() {
     cells = document.querySelectorAll('.cell');
+    elapsedTime = 0;
     fillCells();
     initCellsEvent();
 }
@@ -114,7 +125,13 @@ function onNumberClick(number) {
     if (selectedCell.classList.contains('filled')) return;
     cells.forEach(cell => cell.classList.remove('error', 'zoom', 'shake', 'selected'));
     selectedCell.classList.add('selected');
-    setValueInSelectedCell(number);
+    if(noteMode){
+        setNoteInSelectedCell(number);
+    }
+    else{
+        selectedCell.classList.remove('note');
+        setValueInSelectedCell(number);
+    }
 
     if (!sudoku.hasEmptyCells()) {
         setTimeout(() => winAnimation(), 500)
@@ -126,6 +143,8 @@ function setValueInSelectedCell(value) {
     const duplicatesPositions = sudoku.getDuplicatePositions(row, column, value);
 
     if (duplicatesPositions.length) {
+        mistakes++;
+        document.querySelector('.mistakes_cnt').innerHTML = mistakes;
         highlightDublicates(duplicatesPositions)
         return;
     }
@@ -133,6 +152,14 @@ function setValueInSelectedCell(value) {
     sudoku.grid[row][column] = value;
     selectedCell.innerHTML = value;
     setTimeout(() => selectedCell.classList.add('zoom'), 0);
+}
+
+function setNoteInSelectedCell(value){
+    // let selectedCellValues = selectedCell.innerHTML.split('\n');
+    if(!selectedCell.innerHTML.includes(value)){
+        selectedCell.innerHTML += value + '\n';
+    }
+    selectedCell.classList.add('note');
 }
 
 function highlightDublicates(duplicatesPositions) {
@@ -144,16 +171,42 @@ function highlightDublicates(duplicatesPositions) {
 
 function initDifficulties() {
     const difficulties = document.querySelectorAll('.difficulty');
+
+    const difficultiesPanel = document.querySelector('.difficulities');
+    difficultiesPanel.style.display = 'none';
+    const difficultyChange = document.querySelector('.difficulty_change');
+    difficultyChange.addEventListener('click', () => onDifficultyChangeClick());
+
     difficulties.forEach(difficuly => {
         difficuly.addEventListener('click', () => onDifficultyClick(difficuly));
     });
 }
 
+function onDifficultyChangeClick() {
+    const difficulties = document.querySelector('.difficulities');
+    const difficultyChange = document.querySelector('.difficulty_change');
+
+
+    if (difficulties.style.display === 'none') {
+        difficulties.style.display = 'grid';
+        difficultyChange.classList.add('selected');
+    }
+    else if (difficulties.style.display === 'grid') {
+        difficulties.style.display = 'none';
+        difficultyChange.classList.remove('selected');
+    }
+}
+
 function onDifficultyClick(difficuly) {
+    const difficultyChange = document.querySelector('.difficulty_change');
+
     selectedDifficulty = DIFFICULTIES.get(difficuly.innerHTML); // DIFFICULTIES[difficuly.innerHTML];
     document.querySelectorAll('.difficulty').forEach(difficuly => {
         difficuly.classList.remove('selected');
     });
+    difficultyChange.innerHTML = difficuly.innerHTML;
+    onDifficultyChangeClick();
+
     difficuly.classList.add('selected');
     reload();
 }
@@ -185,6 +238,28 @@ function initKeyEvent() {
     });
 }
 
+function timer() {
+    // elapsedTime ++;
+    stopwatch.increase();
+    let test = stopwatch.getTime();
+    document.querySelector('.stopwatch_seconds').innerHTML = test;
+    setTimeout(timer, 1000);
+}
+
+function initNode() {
+    const noteModeButton = document.querySelector('.pencil');
+    noteModeButton.addEventListener('click', () => onPencilClick(noteModeButton));
+}
+
+function onPencilClick(noteModeButton) {
+    if(noteMode){
+        noteMode = false;
+        noteModeButton.classList.remove('selected');
+    }else{
+        noteMode = true;
+        noteModeButton.classList.add('selected');
+    }
+}
 function winAnimation() {
     cells.forEach(cell => cell.classList.remove('error', 'zoom', 'shake', 'selected', 'highlighted'));
     cells.forEach((cell, i) => {

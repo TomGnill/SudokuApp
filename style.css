@@ -85,17 +85,23 @@ body {
     background-color: var(--highlighted);
 }
 
+.difficulty_change.selected,
+.pencil.selected,
 .difficulty.selected,
 .cell.selected {
     background-color: var(--selected);
 }
-
+.cell.note{
+   color: #7c7c7c;
+   font-size:medium;
+}
 .cell.error {
     background-color: var(--error);
     color: var(--alt-text-color);
 }
+
 .difficulities{
-    display: grid;
+    display:none;
     grid-template-columns: repeat(5, auto);
     gap: var(--gap);
     margin-top: 2vmin;
@@ -105,6 +111,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family:'apple';
     border-radius: var(--border-radius);
     background-color: var(--bg-cell);
     color: var(--text-color);
@@ -119,7 +126,58 @@ body {
 }
 
 
+.upper_panel{
+    display: grid;
+    /* flex-flow: row; */
+    grid-template-columns: repeat(4, auto);
+    gap: var(--gap);
+    margin-top: 2vmin;
+    margin-bottom: 3vmin;
+}
 
+.pencil,
+.mistakes,
+.difficulty_change,
+.stopwatch{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items:center;
+    border-radius: var(--border-radius);
+    background-color: var(--bg-cell);
+    color: var(--text-color);
+    /* cursor: pointer; */
+    height: 6vmin;
+}
+
+.difficulty_change,
+.pencil{
+    cursor: pointer;
+}
+
+
+
+.mistakes,
+.stopwatch{
+    justify-content: stretch;
+}
+
+.mistakes_emj,
+.stopwatch_emj{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    border-right: 1px solid #7c7c7c;
+}
+
+.mistakes_cnt,
+.stopwatch_seconds{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
 .number,
 .remove {
     display: flex;
