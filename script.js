@@ -31,7 +31,7 @@ function reload() {
     stopwatch = new Stopwatch();
     cells.forEach(cell => {
         cell.innerHTML = null;
-        cell.classList.remove('filled', 'zoom', 'shake', 'selected')
+        cell.classList.remove('filled', 'zoom', 'shake', 'selected', 'note')
     });
     initCells();
 }
@@ -155,16 +155,8 @@ function setValueInSelectedCell(value) {
 }
 
 function setNoteInSelectedCell(value){
-    const { row, column } = convertIndexToPosition(selectedCellIndex);
-    const duplicatesPositions = sudoku.getDuplicatePositions(row, column, value);
-
-    if (duplicatesPositions.length) {
-        highlightDublicates(duplicatesPositions)
-        return;
-    }
-
-    let selectedCellValues = selectedCell.innerHTML.split('\n');
-    if(!selectedCellValues.contains(value)){
+    // let selectedCellValues = selectedCell.innerHTML.split('\n');
+    if(!selectedCell.innerHTML.includes(value)){
         selectedCell.innerHTML += value + '\n';
     }
     selectedCell.classList.add('note');

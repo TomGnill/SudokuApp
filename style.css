@@ -93,6 +93,7 @@ body {
 }
 .cell.note{
    color: #7c7c7c;
+   font-size:medium;
 }
 .cell.error {
     background-color: var(--error);
